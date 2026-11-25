@@ -482,6 +482,9 @@ class Statement:
                 self.header_results = self.get_results("header")
                 self.lines_results = self.get_results("lines")
 
+                if self.config.statement_type and self.config.statement_type.payment_totals_source == "transactions":
+                    self._apply_transaction_derived_payments()
+
                 self._apply_opening_balance_correction()
 
                 # Perform validation checks on extracted financial data
@@ -728,6 +731,39 @@ class Statement:
             )
         self.logs.rechunk()
         return results.rechunk().lazy()
+
+    def _apply_transaction_derived_payments(self) -> None:
+        """Derive statement payment totals from extracted transaction rows.
+
+        Some statement formats do not print separate credit and debit totals.
+        For those formats, derive the header totals from the extracted lines so
+        that net movement and closing-balance checks remain meaningful.
+        """
+        lines = self.lines_results.collect()
+        if lines.is_empty():
+            raise ConfigError("Cannot derive statement payment totals without extracted transaction rows.")
+
+        payment_columns = frozenset({"STD_TRANSACTION_PAYMENTS_IN", "STD_TRANSACTION_PAYMENTS_OUT"})
+        missing_columns = payment_columns.difference(lines.columns)
+        if missing_columns:
+            raise ConfigError(f"Cannot derive statement payment totals; missing transaction columns: {sorted(missing_columns)}")
+
+        totals = lines.select(
+            pl.col("STD_TRANSACTION_PAYMENTS_IN").sum().alias("STD_PAYMENTS_IN"),
+            pl.col("STD_TRANSACTION_PAYMENTS_OUT").sum().alias("STD_PAYMENTS_OUT"),
+        ).row(0)
+        payments_in = totals[0] if totals[0] is not None else 0
+        payments_out = totals[1] if totals[1] is not None else 0
+
+        self.header_results = self.header_results.with_columns(
+            pl.lit(payments_in).alias("STD_PAYMENTS_IN"),
+            pl.lit(payments_out).alias("STD_PAYMENTS_OUT"),
+        )
+        self.checks_and_balances = self.checks_and_balances.with_columns(
+            STD_PAYMENTS_IN=pl.lit(payments_in),
+            STD_PAYMENTS_OUT=pl.lit(payments_out),
+            STD_BALANCE_OF_PAYMENTS=pl.lit(payments_in).sub(pl.lit(payments_out)),
+        )
 
     def _apply_opening_balance_correction(self) -> None:
         """Derive the true opening balance from closing balance and transaction movements.

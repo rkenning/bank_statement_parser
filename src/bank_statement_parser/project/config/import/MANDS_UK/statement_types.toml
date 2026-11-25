@@ -1,0 +1,29 @@
+[MANDS_UK_CRD]
+statement_type = "M&S UK Credit Card"
+payment_totals_source = "transactions"
+
+[MANDS_UK_CRD.header]
+[[MANDS_UK_CRD.header.configs]]
+config = "Statement Balances"
+locations = [{page_number = 1, top_left = [355, 250], bottom_right = [405, 265]}]
+field = {field = "opening_balance", vital = true, type = "currency"}
+
+[[MANDS_UK_CRD.header.configs]]
+config = "Statement Balances"
+locations = [{page_number = 1, top_left = [345, 365], bottom_right = [400, 380]}]
+field = {field = "closing_balance", vital = true, type = "currency"}
+
+[[MANDS_UK_CRD.header.configs]]
+config = "Statement Info"
+locations = [{page_number = 1, top_left = [445, 143], bottom_right = [540, 165]}]
+field = {field = "statement_date", vital = true, type = "string", string_pattern = '(\d{1,2}\s+[A-Za-z]+\s+\d{4})', regex_groups = 1}
+
+[[MANDS_UK_CRD.header.configs]]
+config = "Account Info"
+locations = [{page_number = 1, top_left = [445, 120], bottom_right = [540, 140]}]
+field = {field = "card_number", vital = true, type = "string", string_pattern = '^\d{4}\s+\d{4}\s+\d{4}\s+\d{4}$'}
+
+[MANDS_UK_CRD.lines]
+[[MANDS_UK_CRD.lines.configs]]
+config = "Transaction Lines"
+statement_table_key = "MANDS_UK_CRD_TRANSACTIONS"

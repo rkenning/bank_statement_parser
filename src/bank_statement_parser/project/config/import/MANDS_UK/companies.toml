@@ -1,0 +1,7 @@
+[MANDS_UK]
+company = "Marks & Spencer Bank UK"
+
+[MANDS_UK.config]
+config = "Company Info"
+locations = [{page_number = 1, top_left = [200, 600], bottom_right = [230, 620]}]
+field = {field = "brand", vital = true, type = "string", string_pattern = "^M&S$"}

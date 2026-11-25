@@ -1,0 +1,12 @@
+[MANDS_UK_CRD_STD]
+account = "M&S Credit Card"
+company_key = "MANDS_UK"
+account_type_key = "CRD"
+statement_type_key = "MANDS_UK_CRD"
+exclude_last_n_pages = 0
+currency = "GBP"
+
+[MANDS_UK_CRD_STD.config]
+config = "Account Info"
+locations = [{page_number = 3, top_left = [18, 18], bottom_right = [110, 42]}]
+field = {field = "account_type", vital = true, type = "string", string_pattern = "^M&S\\s+Credit Card"}

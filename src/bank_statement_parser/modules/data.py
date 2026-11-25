@@ -1084,6 +1084,10 @@ class StatementType:
     # summary table actually contains the end-of-day-1 balance instead of the
     # true start-of-period balance.
 
+    payment_totals_source: Literal["transactions"] | None = None
+    # [ACTIVE] — When set to "transactions", payments in/out are derived from
+    # extracted transaction rows for statements that do not print separate totals.
+
 
 @dataclass(frozen=True, slots=True)
 class AccountType:

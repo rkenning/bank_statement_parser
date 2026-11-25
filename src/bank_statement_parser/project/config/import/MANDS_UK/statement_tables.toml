@@ -1,0 +1,20 @@
+[MANDS_UK_CRD_TRANSACTIONS]
+type = "transaction"
+statement_table = "Transactions"
+table_columns = 4
+table_rows = 1
+row_spacing = 3
+remove_header = true
+locations = [{page_number = 1, top_left = [0, 230], bottom_right = [595, 360], vertical_lines = [65, 105, 155, 360, 402]}]
+fields = [
+    {field = "received_by_us", column = 0, vital = false, type = "string", string_pattern = '^\d{1,2}\s+[A-Za-z]{3}\s+\d{2}$'},
+    {field = "transaction_date", column = 1, vital = false, type = "string", string_pattern = '^\d{1,2}\s+[A-Za-z]{3}\s+\d{2}$'},
+    {field = "details", column = 2, vital = true, type = "string", string_pattern = ".+", string_max_length = 100},
+    {field = "amount", column = 3, vital = true, type = "currency", numeric_modifier = {suffix = "CR", multiplier = -1.0}},
+]
+
+[MANDS_UK_CRD_TRANSACTIONS.transaction_spec]
+transaction_bookends = [
+    {start_fields = ["received_by_us", "transaction_date", "details", "amount"], min_non_empty_start = 4, end_fields = ["received_by_us", "transaction_date", "details", "amount"], min_non_empty_end = 4},
+    {start_fields = ["details", "amount"], min_non_empty_start = 2, end_fields = ["details", "amount"], min_non_empty_end = 2, extra_validation_start = {field = "details", pattern = "^Interest$"}},
+]
