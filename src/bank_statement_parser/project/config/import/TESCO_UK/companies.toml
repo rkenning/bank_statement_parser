@@ -1,0 +1,7 @@
+[TESCO_UK]
+company = "Tesco Bank UK"
+
+[TESCO_UK.config]
+config = "Company Info"
+locations = [{page_number = 1, top_left = [35, 20], bottom_right = [250, 65]}]
+field = {field = "brand", vital = true, type = "string", string_pattern = "Tesco\\s+Bank"}

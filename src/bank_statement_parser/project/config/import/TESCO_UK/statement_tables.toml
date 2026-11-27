@@ -1,0 +1,29 @@
+[TESCO_UK_CRD_SUMMARY]
+type = "summary"
+statement_table = "Account Summary"
+table_columns = 2
+row_spacing = 5
+locations = [{page_number = 1, top_left = [330, 125], bottom_right = [575, 215]}]
+fields = [
+    {field = "opening_balance", cell = {row = 0, col = 1}, vital = true, type = "currency"},
+    {field = "closing_balance", cell = {row = 2, col = 1}, vital = true, type = "currency"},
+]
+
+[TESCO_UK_CRD_TRANSACTIONS]
+type = "transaction"
+statement_table = "Transactions"
+table_columns = 4
+table_rows = 3
+remove_header = true
+locations = [{page_number = 1, top_left = [30, 240], bottom_right = [570, 720]}]
+fields = [
+    {field = "transaction_date", column = 0, vital = true, type = "string", string_pattern = '^\d{1,2}\s+[A-Za-z]{3}\s+\d{2}$'},
+    {field = "details", column = 1, vital = true, type = "string", string_pattern = ".+", string_max_length = 100},
+    {field = "amount", column = 2, vital = true, type = "currency", numeric_modifier = {suffix = "CR", multiplier = -1.0}},
+    {field = "running_balance", column = 3, vital = false, type = "currency", numeric_modifier = {suffix = "CR", multiplier = -1.0}},
+]
+
+[TESCO_UK_CRD_TRANSACTIONS.transaction_spec]
+transaction_bookends = [
+    {start_fields = ["transaction_date", "details", "amount"], min_non_empty_start = 3, end_fields = ["transaction_date", "details", "amount"], min_non_empty_end = 3},
+]
