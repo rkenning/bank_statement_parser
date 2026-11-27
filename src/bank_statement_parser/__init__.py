@@ -148,6 +148,16 @@ from bank_statement_parser.modules.statements import (
     delete_temp_files,
     process_pdf_statement,
 )
+from bank_statement_parser.parse import (
+    PARSE_RESULT_SCHEMA_VERSION,
+    ParsedAccount,
+    ParsedStatement,
+    ParsedTransaction,
+    ParseError,
+    ParseValidation,
+    ValidationCheck,
+    parse_statement,
+)
 
 # ---------------------------------------------------------------------------
 # PDF anonymisation utility
@@ -182,10 +192,16 @@ from bank_statement_parser.modules.pdf_functions import (
 from bank_statement_parser.testing import TestHarness
 
 __all__ = [
+    "PARSE_RESULT_SCHEMA_VERSION",
     "Failure",
     "ForexApiConfig",
     "Housekeeping",
     "ParquetFiles",
+    "ParseError",
+    "ParseValidation",
+    "ParsedAccount",
+    "ParsedStatement",
+    "ParsedTransaction",
     "PdfResult",
     "ProjectConfigMissing",
     "ProjectDatabaseMissing",
@@ -198,6 +214,7 @@ __all__ = [
     "Success",
     "TestGateFailure",
     "TestHarness",
+    "ValidationCheck",
     "__app_name__",
     "__version__",
     "build_datamart",
@@ -217,6 +234,7 @@ __all__ = [
     "needs_upgrade",
     "page_crop",
     "page_text",
+    "parse_statement",
     "pdf_open",
     "process_pdf_statement",
     "region_search",

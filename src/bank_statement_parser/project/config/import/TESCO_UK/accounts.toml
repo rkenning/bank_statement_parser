@@ -1,0 +1,12 @@
+[TESCO_UK_CRD_STD]
+account = "Tesco Bank Credit Card"
+company_key = "TESCO_UK"
+account_type_key = "CRD"
+statement_type_key = "TESCO_UK_CRD"
+exclude_last_n_pages = 0
+currency = "GBP"
+
+[TESCO_UK_CRD_STD.config]
+config = "Account Info"
+locations = [{page_number = 1, top_left = [35, 65], bottom_right = [300, 100]}]
+field = {field = "account_type", vital = true, type = "string", string_pattern = "Tesco\\s+Bank\\s+Credit\\s+Card"}

@@ -24,8 +24,10 @@ Everything runs on your own computer. No data is sent anywhere.
 |---|---|
 | **HALIFAX UK** | Current Account |
 | **HSBC UK** | Rewards Credit Card, Flexible Saver, Bank Account, HSBC Advance, Online Bonus Saver |
+| **MANDS UK** | M&S Credit Card |
 | **NATWEST UK** | Select Account |
 | **SANTANDER UK** | Edge Current Account |
+| **TESCO UK** | Tesco Bank Credit Card |
 | **TSB UK** | Spend & Save |
 > Support for more banks can be added by creating configuration files. See the [Adding a New Bank](guides/new-bank-config.md) guide.
 

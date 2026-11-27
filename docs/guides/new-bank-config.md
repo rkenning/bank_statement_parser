@@ -527,6 +527,7 @@ Full extraction specification for one statement layout variant.
 | `header` | `ConfigGroup` | ACTIVE | Config steps that extract statement-level metadata: dates, account numbers, opening/closing balances, etc. |
 | `lines` | `ConfigGroup` | ACTIVE | Config steps that extract per-transaction data from the body of each page. |
 | `opening_balance_source` | `Literal['closing_minus_movements'] \| None` | ACTIVE | When set to "closing_minus_movements", the opening balance is derived from the closing balance minus the sum of all transaction movements rather than using the value extracted from the statement header.  This corrects PDFs (e.g. Halifax) where the "opening balance" cell in the summary table actually contains the end-of-day-1 balance instead of the true start-of-period balance. |
+| `payment_totals_source` | `Literal['transactions'] \| None` | ACTIVE | When set to "transactions", payments in/out are derived from extracted transaction rows for statements that do not print separate totals. |
 
 #### `ConfigGroup`
 
@@ -619,6 +620,8 @@ name and the corresponding raw field name from your `statement_tables.toml`.
         {statement_type="HSBC UK Current Account", field="opening_balance"},
         {statement_type="HSBC UK Saving Account", field="opening_balance"},
         {statement_type="HSBC UK Credit Card", field="previous_balance", multiplier=-1.0000},
+        {statement_type="M&S UK Credit Card", field="opening_balance", multiplier=-1.0000},
+        {statement_type="Tesco Bank UK Credit Card", field="opening_balance", multiplier=-1.0000},
         {statement_type="TSB UK Current Account", field="opening_balance"},
         {statement_type="Halifax UK Current Account", field="opening_balance"},
         {statement_type="NatWest UK Current Account", field="opening_balance"},
@@ -763,6 +766,7 @@ Full extraction specification for one statement layout variant.
 | `header` | `ConfigGroup` | ACTIVE | Config steps that extract statement-level metadata: dates, account numbers, opening/closing balances, etc. |
 | `lines` | `ConfigGroup` | ACTIVE | Config steps that extract per-transaction data from the body of each page. |
 | `opening_balance_source` | `Literal['closing_minus_movements'] \| None` | ACTIVE | When set to "closing_minus_movements", the opening balance is derived from the closing balance minus the sum of all transaction movements rather than using the value extracted from the statement header.  This corrects PDFs (e.g. Halifax) where the "opening balance" cell in the summary table actually contains the end-of-day-1 balance instead of the true start-of-period balance. |
+| `payment_totals_source` | `Literal['transactions'] \| None` | ACTIVE | When set to "transactions", payments in/out are derived from extracted transaction rows for statements that do not print separate totals. |
 
 ### `ConfigGroup`
 

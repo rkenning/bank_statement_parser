@@ -9,7 +9,26 @@ All public symbols are available from the top-level package:
 import bank_statement_parser as bsp
 ```
 
+## Parse a single statement
+
+`parse_statement(...)` returns a versioned, normalized result without
+writing project files, parquet files, or database records. Parsing is local
+and deterministic; no network or application-specific IDs are used.
+
+```python
+result = bsp.parse_statement("statement.pdf", provider="NatWest")
+
+assert result.schema_version == "1.0"
+assert result.validation.status in {"valid", "invalid", "failed"}
+for transaction in result.transactions:
+    print(transaction.date, transaction.amount, transaction.description)
+```
+
 ## Ungrouped
+
+### `bsp.PARSE_RESULT_SCHEMA_VERSION()`
+
+*function* — `bank_statement_parser.parse`
 
 ### `bsp.Failure`
 
@@ -34,6 +53,36 @@ Orphan-detection and cascaded-delete helper for the raw SQLite database.
 *class* — `bank_statement_parser.modules.data`
 
 Paths to the statement-level temporary Parquet files written on the SUCCESS path.
+
+### `bsp.ParseError`
+
+*class* — `bank_statement_parser.parse`
+
+A structured parsing or validation error.
+
+### `bsp.ParseValidation`
+
+*class* — `bank_statement_parser.parse`
+
+Validation status and deterministic evidence for a parse result.
+
+### `bsp.ParsedAccount`
+
+*class* — `bank_statement_parser.parse`
+
+Normalized identity for the account that owns a statement.
+
+### `bsp.ParsedStatement`
+
+*class* — `bank_statement_parser.parse`
+
+Versioned, normalized result returned by :func:`parse_statement`.
+
+### `bsp.ParsedTransaction`
+
+*class* — `bank_statement_parser.parse`
+
+A validated normalized transaction.
 
 ### `bsp.PdfResult`
 
@@ -106,6 +155,12 @@ Raised when bsp's own pytest suite fails during TestHarness.setup().
 *class* — `bank_statement_parser.testing`
 
 Programmatic test environment for integration testing by dependent projects.
+
+### `bsp.ValidationCheck`
+
+*class* — `bank_statement_parser.parse`
+
+One deterministic statement validation check.
 
 ### `bsp.__app_name__`
 
@@ -216,6 +271,12 @@ Crop a PDF page to the specified bounding box coordinates, with smart defaults.
 *function* — `bank_statement_parser.modules.pdf_functions`
 
 Extract all text content from a PDF page.
+
+### `bsp.parse_statement()`
+
+*function* — `bank_statement_parser.parse`
+
+Parse one PDF statement into a versioned, normalized result.
 
 ### `bsp.pdf_open()`
 

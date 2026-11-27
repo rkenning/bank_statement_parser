@@ -1,0 +1,23 @@
+[TESCO_UK_CRD]
+statement_type = "Tesco Bank UK Credit Card"
+payment_totals_source = "transactions"
+
+[TESCO_UK_CRD.header]
+[[TESCO_UK_CRD.header.configs]]
+config = "Statement Balances"
+statement_table_key = "TESCO_UK_CRD_SUMMARY"
+
+[[TESCO_UK_CRD.header.configs]]
+config = "Statement Info"
+locations = [{page_number = 1, top_left = [390, 35], bottom_right = [570, 60]}]
+field = {field = "statement_date", vital = true, type = "string", string_pattern = '(\d{1,2}\s+[A-Za-z]+\s+\d{4})', regex_groups = 1}
+
+[[TESCO_UK_CRD.header.configs]]
+config = "Account Info"
+locations = [{page_number = 1, top_left = [390, 65], bottom_right = [570, 95]}]
+field = {field = "card_number", vital = true, type = "string", string_pattern = '^\d{4}\s+\d{4}\s+\d{4}\s+\d{4}$'}
+
+[TESCO_UK_CRD.lines]
+[[TESCO_UK_CRD.lines.configs]]
+config = "Transaction Lines"
+statement_table_key = "TESCO_UK_CRD_TRANSACTIONS"
